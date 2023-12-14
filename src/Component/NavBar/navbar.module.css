@@ -1,0 +1,30 @@
+*{
+    margin : 0;
+    padding:0;
+}
+nav{
+    width : 100vw;
+    height: 10vh;
+    background-color: mediumseagreen;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo{
+    margin-left: 1rem;
+    font-size: 2rem;
+    font-family:  'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}
+.navList{
+    width: 40%;
+}
+.navList ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 1rem;
+}
+.navList ul li{
+    list-style: none;
+}
