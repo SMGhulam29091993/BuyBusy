@@ -7,7 +7,8 @@ import Login from "./Pages/login/login";
 import SignUp from "./Pages/Sing-Up/sign-up";
 
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-
+import UserProvider from './context';
+import ProtectedRoute from './ProtectedRoute';
 
 
 const App = ()=>{
@@ -16,16 +17,20 @@ const App = ()=>{
       element : <NavBar/>,
       children:[
         {index:true, element:<Home/>},
-        {path:"/my-order", element: <MyOrder/>},
-        {path : "/cart", element: <Cart/>},
+        {path:"/my-order", element: <ProtectedRoute><MyOrder/></ProtectedRoute>},
+        {path : "/cart", element: <ProtectedRoute><Cart/></ProtectedRoute>},
         {path : "/login", element:<Login/>},
         {path:"/sign-up", element:<SignUp/>}
       ]  
   },
   ]);
   return (
+
     <>
-      <RouterProvider router={router}/>
+      <UserProvider>
+        <RouterProvider router={router}/>
+      </UserProvider>
+      
     </>
     
   )

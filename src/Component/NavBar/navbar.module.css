@@ -17,13 +17,13 @@ nav{
     font-weight: bold;
 }
 .navList{
-    width: 40%;
+    width: 20%;
 }
 .navList ul{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-right: 1rem;
+    justify-content: space-around;
+    margin-right: 5px;
 }
 .navList ul li{
     list-style: none;
