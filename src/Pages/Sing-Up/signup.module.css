@@ -1,0 +1,56 @@
+.formContainer {
+    max-width: 400px;
+    margin: 5rem auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.formContainer form {
+    display: flex;
+    flex-direction: column;
+}
+
+.formContainer input[type='text'],
+.formContainer input[type='email'],
+.formContainer input[type='password'] {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.formContainer input[type='submit'] {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.formContainer input[type='submit']:hover {
+    background-color: #0056b3;
+}
+
+.formContainer p {
+    margin-top: 20px;
+}
+button{
+    padding:0.5rem;
+    cursor: pointer;
+    border: None;
+    outline: 0;
+}
+.addBtn{
+    width: 101%;
+    height: 10%; 
+    background-color: rgb(59, 59, 233);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+}

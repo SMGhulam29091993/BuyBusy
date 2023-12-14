@@ -27,4 +27,11 @@ nav{
 }
 .navList ul li{
     list-style: none;
+    cursor: pointer;
+    font-family:  'Lucida Sans Unicode',"sans-serif";
+    font-weight: 900;
+}
+.navList ul a{
+    text-decoration: none;
+    color: black;
 }
