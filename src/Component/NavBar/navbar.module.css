@@ -17,19 +17,20 @@ nav{
     font-weight: bold;
 }
 .navList{
-    width: 20%;
+    width: 30%;
 }
 .navList ul{
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-right: 5px;
+    margin-right: 1rem;
 }
 .navList ul li{
     list-style: none;
     cursor: pointer;
     font-family:  'Lucida Sans Unicode',"sans-serif";
     font-weight: 900;
+    margin: 0.6rem;
 }
 .navList ul a{
     text-decoration: none;
