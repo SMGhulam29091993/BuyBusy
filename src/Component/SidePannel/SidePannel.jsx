@@ -20,7 +20,7 @@ const SidePanel = ()=>{
         <>
             <div className={style.panelContainer}>
                 <div className={style.priceFilter}>
-                    <h3>Selected Price: ${filterPrice}</h3>
+                    <h3>Selected Price: ₹{filterPrice}</h3>
                     <input
                         type="range"
                         min={0}

@@ -12,7 +12,7 @@ const CartCard = ({item})=>{
                 <div className={style.imageContainer}>
                     <img src="https://images.unsplash.com/photo-1622560480654-d96214fdc887?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJhZ3xlbnwwfHwwfHx8MA%3D%3D" alt="product" />
                 </div>
-                <p>{item.details}</p>
+                <h3>{item.details}</h3>
                 <div className={style.addItem}>
                     <img src="https://cdn-icons-png.flaticon.com/128/1828/1828906.png" alt="decrease-icon" 
                                 onClick={()=>handleRemove(item)}/>
@@ -20,7 +20,7 @@ const CartCard = ({item})=>{
                     <img src="https://cdn-icons-png.flaticon.com/128/992/992651.png" alt="increse-icon"
                                 onClick={()=>handleAdd(item)}/>
                 </div>
-                <p>Total Price: {item.qty * item.price}</p>
+                <h3>Total Price: {item.qty * item.price}</h3>
             </div>
         </>
     )

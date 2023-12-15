@@ -3,14 +3,19 @@
     align-items: center;
     justify-content: space-between;
     width: 70%;
-    border: 1px solid red;
     margin: 1rem auto;
     padding: 10px;
+    box-shadow: 4px 4px 8px 6px rgba(255,201,234,0.8);
+    background-color: rgb(228, 199, 127);
+    border-radius: 1rem 1rem;
 }
 .addItem{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.addItem span{
+    font-weight: bold;
 }
 .addItem img{
     width: 20px;

@@ -77,7 +77,7 @@ const UserProvider = ({children})=>{
     
     // adding to the cart functionality
     const [cart,setCart] = useState([]);
-    // const [total, setTotal] = useState({ count: 0 })
+    const [total, setTotal] = useState([])
  
     const addToCart = async (prod)=>{
         try{
@@ -136,6 +136,18 @@ const UserProvider = ({children})=>{
         
         return ()=>getData();
     },[])
+    useEffect(() => {
+        const unsubscribe = onSnapshot(collection(db, "Total"), (snapshot) => {
+            const totalData = snapshot.docs.map((doc)=>({
+                id : doc.id,
+                ...doc.data()
+            }))
+            const totalValue = totalData.map((data) => data.count);
+            setTotal(totalValue)
+        });
+    
+        return () => unsubscribe();
+    }, []);
     
 
     const handleAdd = async (item) => {
@@ -210,14 +222,54 @@ const UserProvider = ({children})=>{
             console.log("Error adding document: ", error)
         }
     };
- 
+    // the below code will transfer the item from Cart to My-Order
+    const handlePurchase = async () => {
+        try {
+            const cartRef = collection(db, "Cart");
+            const orderRef = collection(db, "MyOrder");
+            const totalRef = collection(db, "Total");
+            const purchaseAmountRef = collection(db, "PurchaseAmount");
+    
+            const cartData = await getDocs(cartRef);
+            const totalData = await getDocs(totalRef);
+    
+            const transferPromises = [];
+    
+            cartData.forEach((doc) => {
+                const transferData = doc.data();
+                const transferPromise = addDoc(orderRef, transferData);
+                transferPromises.push(transferPromise);
+            });
+    
+            await Promise.all(transferPromises);
+    
+            const deleteCartPromises = cartData.docs.map((doc) => deleteDoc(doc.ref));
+            await Promise.all(deleteCartPromises);
+    
+            if (totalData.docs.length > 0) {
+                const totalAmount = totalData.docs[0].data().count;
+                const totalDocRef = totalData.docs[0].ref;
+                await setDoc(totalDocRef, { count: 0 });
+                
+                await addDoc(purchaseAmountRef, { amount: totalAmount });
+            }
+    
+        } catch (error) {
+            console.error("Error handling purchase:", error);
+        }
+    };
+    
+    
+    
+    
+    
     
     return (
         <>
             <userContext.Provider value={{user,SignUp,logIn, logOut, 
                                         isLoggedIn,setLoggedIn, products,setProducts,
                                         category,setShowCategory, addToCart,
-                                        cart, handleAdd, handleRemove}}>
+                                        cart, handleAdd, handleRemove, total, handlePurchase}}>
                                             
                 {children}
             </userContext.Provider>
