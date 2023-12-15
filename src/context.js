@@ -122,9 +122,7 @@ const UserProvider = ({children})=>{
 
 
     
-    // getting cart data and showing it in Cart page
-    
-
+    // getting cart data and showing it in Cart page  
     useEffect(()=>{
         const getData = onSnapshot(collection(db,"Cart"), (snapShot)=>{
             const cartData = snapShot.docs.map((doc)=>({
@@ -228,7 +226,7 @@ const UserProvider = ({children})=>{
             const cartRef = collection(db, "Cart");
             const orderRef = collection(db, "MyOrder");
             const totalRef = collection(db, "Total");
-            const purchaseAmountRef = collection(db, "PurchaseAmount");
+            const purchaseAmountRef = doc(db, "PurchaseAmount", "ozA99YAui235Kdersk6a");
     
             const cartData = await getDocs(cartRef);
             const totalData = await getDocs(totalRef);
@@ -250,8 +248,7 @@ const UserProvider = ({children})=>{
                 const totalAmount = totalData.docs[0].data().count;
                 const totalDocRef = totalData.docs[0].ref;
                 await setDoc(totalDocRef, { count: 0 });
-                
-                await addDoc(purchaseAmountRef, { amount: totalAmount });
+                await setDoc(purchaseAmountRef, { amount: totalAmount });
             }
     
         } catch (error) {
@@ -260,16 +257,17 @@ const UserProvider = ({children})=>{
     };
     
     
-    
+    const customContextValue= {
+        user,isLoggedIn, products, category,total,cart,
+        setShowCategory, addToCart, handleAdd, handleRemove, 
+        handlePurchase,SignUp,logIn, logOut, setLoggedIn,setProducts,
+    }
     
     
     
     return (
         <>
-            <userContext.Provider value={{user,SignUp,logIn, logOut, 
-                                        isLoggedIn,setLoggedIn, products,setProducts,
-                                        category,setShowCategory, addToCart,
-                                        cart, handleAdd, handleRemove, total, handlePurchase}}>
+            <userContext.Provider value={customContextValue}>
                                             
                 {children}
             </userContext.Provider>
