@@ -3,6 +3,7 @@ import style from './cartcard.module.css';
 import { useCustomHook } from '../../context';
 
 const CartCard = ({item})=>{
+    const {handleAdd, handleRemove} = useCustomHook()
    
     return (
         <>
@@ -13,11 +14,13 @@ const CartCard = ({item})=>{
                 </div>
                 <p>{item.details}</p>
                 <div className={style.addItem}>
-                    <img src="https://cdn-icons-png.flaticon.com/128/1828/1828906.png" alt="decrease-icon"/>
+                    <img src="https://cdn-icons-png.flaticon.com/128/1828/1828906.png" alt="decrease-icon" 
+                                onClick={()=>handleRemove(item)}/>
                     <span>Qty : {item.qty}</span>
-                    <img src="https://cdn-icons-png.flaticon.com/128/992/992651.png" alt="increse-icon"/>
+                    <img src="https://cdn-icons-png.flaticon.com/128/992/992651.png" alt="increse-icon"
+                                onClick={()=>handleAdd(item)}/>
                 </div>
-                <p>Total Price: {item.price}</p>
+                <p>Total Price: {item.qty * item.price}</p>
             </div>
         </>
     )

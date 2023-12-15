@@ -6,7 +6,7 @@ import {createUserWithEmailAndPassword,
 import { auth } from "./firebaseInit";
 
 import { db } from './firebaseInit';
-import { addDoc, collection, getDocs, onSnapshot } from 'firebase/firestore';
+import {  collection, getDocs, onSnapshot, setDoc, addDoc,doc, deleteDoc } from 'firebase/firestore';
 
 
 export const userContext = createContext();
@@ -76,16 +76,54 @@ const UserProvider = ({children})=>{
     },[]);
     
     // adding to the cart functionality
+    const [cart,setCart] = useState([]);
+    // const [total, setTotal] = useState({ count: 0 })
+ 
     const addToCart = async (prod)=>{
         try{
-            const docRef = await addDoc(collection(db,"Cart"), prod);
-            console.log("Document written with ID: ", docRef.id);
+            const cartRef = collection(db,"Cart");
+            const totalRef = collection(db, "Total");
+            const existingItem = await getDocs(cartRef);
+            const total = await getDocs(totalRef);
+            let totalId
+            total.forEach((doc)=>{ totalId = doc.id})
+
+            let exists = null;
+
+            existingItem.forEach((doc)=>{
+                const existData = doc.data();
+                if(existData.id===prod.id){
+                    exists = {...existData, docId: doc.id}
+                }
+            });
+
+            if (exists) {
+                await setDoc(doc(cartRef, exists.docId), { ...exists, qty: exists.qty + 1 });
+                const totalData = total.docs[0].data();
+                const currentTotal = totalData.count || 0;
+                await setDoc(doc(totalRef, totalId), {
+                    count: currentTotal + exists.price,
+                });
+            } else {
+                const docRef = await addDoc(cartRef, { ...prod, qty: 1 });
+                const totalPrice = prod.price;
+                const totalData = total.docs[0].data();
+                const currentTotal = totalData.count || 0;
+                await setDoc(doc(totalRef, totalId), {
+                    count: currentTotal + totalPrice,
+                });
+                console.log("Document written with ID: ", docRef.id);
+            }
+            
         }catch(error){
             console.log("Error adding document: ", error)
         }
     }
+
+
+    
     // getting cart data and showing it in Cart page
-    const [cart,setCart] = useState([])
+    
 
     useEffect(()=>{
         const getData = onSnapshot(collection(db,"Cart"), (snapShot)=>{
@@ -100,15 +138,86 @@ const UserProvider = ({children})=>{
     },[])
     
 
-    const handleAdd = (prod)=>{
-        // pass
-    }
+    const handleAdd = async (item) => {
+        try{
+            const cartRef = collection(db,"Cart");
+            const existingItem = await getDocs(cartRef);
+            const totalRef = collection(db, "Total");
+            const total = await getDocs(totalRef);
+            let totalId;
+            total.forEach((doc)=>{
+                totalId = doc.id
+            })
+
+            let exists = null;
+
+            existingItem.forEach((doc)=>{
+                const existData = doc.data();
+                if(existData.id===item.id){
+                    exists = {...existData, docId: doc.id}
+                }
+            });
+
+            if(exists){
+                await setDoc(doc(cartRef, exists.docId), {...exists, qty:exists.qty+1});
+                const totalData = total.docs[0].data();
+                const currentTotal = totalData.count || 0;
+                await setDoc(doc(totalRef, totalId), {
+                    count: currentTotal + exists.price,
+                });
+            }
+        }catch(error){
+            console.log("Error adding document: ", error)
+        }
+    };
+    
+    
+    const handleRemove = async (item) => {
+        try{
+            const cartRef = collection(db,"Cart");
+            const existingItem = await getDocs(cartRef);
+            const totalRef = collection(db, "Total");
+            const total = await getDocs(totalRef);
+            let totalId;
+            total.forEach((doc)=>{
+                totalId = doc.id
+            })
+
+            let exists = null;
+
+            existingItem.forEach((doc)=>{
+                const existData = doc.data();
+                if(existData.id===item.id){
+                    exists = {...existData, docId: doc.id}
+                }
+            });
+
+            if(exists){
+                await setDoc(doc(cartRef, exists.docId), {...exists, qty:exists.qty-1});
+                const totalData = total.docs[0].data();
+                const currentTotal = totalData.count || 0;
+                await setDoc(doc(totalRef, totalId), {
+                    count: currentTotal - exists.price,
+                });
+                if(exists.qty===1){
+                    await deleteDoc(doc(cartRef, exists.docId));
+                }
+            }
+            if(cart.length<1){
+                await setDoc(doc(totalRef, totalId), { count: 0 });
+            }
+        }catch(error){
+            console.log("Error adding document: ", error)
+        }
+    };
+ 
     
     return (
         <>
             <userContext.Provider value={{user,SignUp,logIn, logOut, 
                                         isLoggedIn,setLoggedIn, products,setProducts,
-                                        category,setShowCategory, addToCart,cart}}>
+                                        category,setShowCategory, addToCart,
+                                        cart, handleAdd, handleRemove}}>
                                             
                 {children}
             </userContext.Provider>
