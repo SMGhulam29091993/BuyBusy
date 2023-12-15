@@ -5,11 +5,10 @@ import { useCustomHook } from '../../context';
 
 const NavBar = ()=>{
     const navigate = useNavigate()
-    const {logOut, isLoggedIn,setLoggedIn} = useCustomHook();
+    const {logOut, isLoggedIn} = useCustomHook();
     const handleLogOut= async ()=>{
         try{
             await logOut()
-            setLoggedIn(false)
             navigate('/login')
         }catch(err){
             console.error("Error adding document: ", err);

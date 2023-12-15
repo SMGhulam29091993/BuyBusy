@@ -18,9 +18,6 @@ const SignUp = ()=>{
 
     
     const [userFormData, setUserFormData] = useState(initialFormData)
-
-    // const [userData,setUserData] = useState([])
-
     const handleSubmit= async (e)=>{
         e.preventDefault();
         try{
@@ -33,6 +30,7 @@ const SignUp = ()=>{
             console.error("Error adding document: ", error);
         }
         // setUserData([...userData,userFormData]);  
+
     };
 
     return (

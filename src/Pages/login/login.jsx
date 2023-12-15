@@ -8,13 +8,12 @@ const Login = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { logIn, setLoggedIn } = useCustomHook();
+    const { logIn } = useCustomHook();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
             await logIn(email,password);
-            setLoggedIn(true)
             navigate('/');
         }catch(error){
             console.error("Error adding document: ", error);
