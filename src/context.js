@@ -6,7 +6,7 @@ import {createUserWithEmailAndPassword,
 import { auth } from "./firebaseInit";
 
 import { db } from './firebaseInit';
-import {  collection, getDocs, onSnapshot, setDoc, addDoc,doc, deleteDoc } from 'firebase/firestore';
+import {  collection, getDocs, onSnapshot, setDoc, addDoc,doc, deleteDoc,serverTimestamp } from 'firebase/firestore';
 
 
 export const userContext = createContext();
@@ -232,12 +232,18 @@ const UserProvider = ({children})=>{
             const totalData = await getDocs(totalRef);
     
             const transferPromises = [];
-    
+            const currentDateTime = serverTimestamp(); // Get current server timestamp
+
             cartData.forEach((doc) => {
                 const transferData = doc.data();
-                const transferPromise = addDoc(orderRef, transferData);
+                const transferPromise = addDoc(orderRef, { ...transferData, dateTime: currentDateTime });
                 transferPromises.push(transferPromise);
             });
+            // cartData.forEach((doc) => {
+            //     const transferData = doc.data();
+            //     const transferPromise = addDoc(orderRef, transferData);
+            //     transferPromises.push(transferPromise);
+            // });
     
             await Promise.all(transferPromises);
     
@@ -255,12 +261,20 @@ const UserProvider = ({children})=>{
             console.error("Error handling purchase:", error);
         }
     };
+
+    // creating the search function
+    const [search, setSearch] = useState("");
+    const [filterPrice, setPrice] = useState(0);
+    const clearCategory = ()=>{
+        setShowCategory(null);
+        setPrice(0);
+    }
     
     
     const customContextValue= {
-        user,isLoggedIn, products, category,total,cart,
-        setShowCategory, addToCart, handleAdd, handleRemove, 
-        handlePurchase,SignUp,logIn, logOut, setLoggedIn,setProducts,
+        user,isLoggedIn, products, category,total,cart,search,filterPrice,
+        setSearch,setShowCategory, addToCart, handleAdd, handleRemove, 
+        handlePurchase,SignUp,logIn, logOut, setLoggedIn,setProducts,clearCategory,setPrice
     }
     
     

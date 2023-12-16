@@ -1,16 +1,15 @@
-import React,{useState} from 'react';
+import React from 'react';
 import style from "./sidepannel.module.css";
 import { useCustomHook } from '../../context';
 
 const SidePanel = ()=>{
-    const [filterPrice, setPrice] = useState(0);
-
+    const {filterPrice,setPrice} = useCustomHook();
     const handlePriceChange = (e) => {
         setPrice(parseInt(e.target.value, 10));
     }
     const categoryName = ["Men", "Women", "Kid"];
     
-    const {category,setShowCategory} = useCustomHook()
+    const {category,setShowCategory, clearCategory} = useCustomHook()
 
     const showCategory= async (category)=>{
         setShowCategory(category);
@@ -36,6 +35,7 @@ const SidePanel = ()=>{
                             <li key={i} onClick={()=>showCategory(cat)}>{cat}</li>
                         ))}
                     </ul>
+                    <buttton className={style.clearBtn} onClick={clearCategory}>Clear...</buttton>
                 </div>
             </div>
             {category}

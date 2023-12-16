@@ -36,3 +36,7 @@
 ul li:hover{
     background-color: grey;
 }
+.clearBtn{
+    cursor: pointer;
+    margin : 15px;
+}

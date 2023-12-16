@@ -1,11 +1,11 @@
 import React from 'react';
 import style from './navbar.module.css';
-import {Outlet, NavLink, useNavigate} from "react-router-dom";
+import {Outlet, Link, useNavigate} from "react-router-dom";
 import { useCustomHook } from '../../context';
 
 const NavBar = ()=>{
     const navigate = useNavigate()
-    const {logOut, isLoggedIn} = useCustomHook();
+    const {logOut, isLoggedIn, clearCategory} = useCustomHook();
     const handleLogOut= async ()=>{
         try{
             await logOut()
@@ -24,15 +24,15 @@ const NavBar = ()=>{
                     <ul>
                             {isLoggedIn ? (
                                 <>
-                                    <NavLink to="/"><li>Home</li></NavLink>
-                                    <NavLink to="/my-order"><li>My Order</li></NavLink>
-                                    <NavLink to="/cart"><li>Cart</li></NavLink>
+                                    <Link  to="/"><li onClick={clearCategory}>Home</li></Link>
+                                    <Link to="/my-order"><li>My Order</li></Link>
+                                    <Link to="/cart"><li>Cart</li></Link>
                                     <li onClick={handleLogOut}>Log-out</li>
                                 </>
                             ) : (
                                 <>
-                                    <NavLink to="/login"><li>Log-in</li></NavLink>
-                                    <NavLink to="/sign-up"><li>Sign-up</li></NavLink>
+                                    <Link to="/login"><li>Log-in</li></Link>
+                                    <Link to="/sign-up"><li>Sign-up</li></Link>
                                 </>
                             )}
                         </ul>
