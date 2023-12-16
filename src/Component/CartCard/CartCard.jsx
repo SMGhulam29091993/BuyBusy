@@ -10,7 +10,7 @@ const CartCard = ({item})=>{
             
             <div className={style.cartContainer}>
                 <div className={style.imageContainer}>
-                    <img src="https://images.unsplash.com/photo-1622560480654-d96214fdc887?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJhZ3xlbnwwfHwwfHx8MA%3D%3D" alt="product" />
+                    <img src={item.img} alt="product" />
                 </div>
                 <h3>{item.details}</h3>
                 <div className={style.addItem}>
