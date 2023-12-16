@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Optional: Adjust height to cover the entire viewport */
+}

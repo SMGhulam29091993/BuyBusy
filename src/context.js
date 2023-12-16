@@ -7,7 +7,8 @@ import { auth } from "./firebaseInit";
 
 import { db } from './firebaseInit';
 import {  collection, getDocs, onSnapshot, setDoc, addDoc,doc, deleteDoc,serverTimestamp } from 'firebase/firestore';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const userContext = createContext();
 
@@ -28,13 +29,14 @@ const UserProvider = ({children})=>{
       }, []);
     
       const SignUp = (email, password) => {
-        return createUserWithEmailAndPassword(auth, email, password);
+        return createUserWithEmailAndPassword(auth, email, password).then(()=>signUpNotify());
       };
     
       const logIn = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password).then(() => {
           setLoggedIn(true);
           localStorage.setItem('user', 'true');
+          loginNotify();
         });
       };
     
@@ -114,9 +116,11 @@ const UserProvider = ({children})=>{
                 });
                 console.log("Document written with ID: ", docRef.id);
             }
+            addCartNotify();
             
         }catch(error){
             console.log("Error adding document: ", error)
+            toast.error("Unable to add to Cart")
         }
     }
 
@@ -251,9 +255,11 @@ const UserProvider = ({children})=>{
                 const totalDocRef = totalData.docs[0].ref;
                 await setDoc(totalDocRef, { count: 0 });
             }
+            purchaseNotify();
     
         } catch (error) {
             console.error("Error handling purchase:", error);
+            toast.error("Unable to place order!")
         }
     };
 
@@ -264,7 +270,11 @@ const UserProvider = ({children})=>{
         setShowCategory(null);
         setPrice(0);
     }
-    
+    // React-toastify
+    const loginNotify = ()=>toast.success("Successfully Login!");
+    const signUpNotify = ()=>toast.success("Successfully SingUp!");
+    const addCartNotify = ()=>toast.success("Successfully added to Cart!")
+    const purchaseNotify = ()=>toast.success("Order successfully placed!")
     
     const customContextValue= {
         user,isLoggedIn, products, category,total,cart,search,filterPrice,
@@ -276,8 +286,7 @@ const UserProvider = ({children})=>{
     
     return (
         <>
-            <userContext.Provider value={customContextValue}>
-                                            
+            <userContext.Provider value={customContextValue}>       
                 {children}
             </userContext.Provider>
         </>

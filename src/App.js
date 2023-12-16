@@ -10,6 +10,10 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import UserProvider from './context';
 import ProtectedRoute from './ProtectedRoute';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 const App = ()=>{
@@ -25,12 +29,15 @@ const App = ()=>{
       ]  
   },
   ]);
+
+  
   return (
 
-    <>
+    <> 
       <UserProvider>
         <RouterProvider router={router}/>
       </UserProvider>
+      <ToastContainer />
       
     </>
     

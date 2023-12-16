@@ -9,7 +9,7 @@ const SidePanel = ()=>{
     }
     const categoryName = ["Men", "Women", "Kid"];
     
-    const {category,setShowCategory, clearCategory} = useCustomHook()
+    const {setShowCategory, clearCategory} = useCustomHook()
 
     const showCategory= async (category)=>{
         setShowCategory(category);
@@ -38,7 +38,6 @@ const SidePanel = ()=>{
                     <buttton className={style.clearBtn} onClick={clearCategory}>Clear...</buttton>
                 </div>
             </div>
-            {category}
         </>
     )
 }

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import style from "./login.module.css";
 import { useCustomHook } from '../../context';
 import {useNavigate} from "react-router-dom";
-
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const Login = () => {
     const navigate = useNavigate()
@@ -17,6 +18,7 @@ const Login = () => {
             navigate('/');
         }catch(error){
             console.error("Error adding document: ", error);
+            toast.error("Invalid Username/Password")
         }
     };
 
