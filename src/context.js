@@ -114,12 +114,12 @@ const UserProvider = ({children})=>{
                 await setDoc(doc(totalRef, totalId), {
                     count: currentTotal + totalPrice,
                 });
-                console.log("Document written with ID: ", docRef.id);
+                // console.log("Document written with ID: ", docRef.id);
             }
             addCartNotify();
             
         }catch(error){
-            console.log("Error adding document: ", error)
+            console.error("Error adding document: ", error)
             toast.error("Unable to add to Cart")
         }
     }
@@ -181,7 +181,7 @@ const UserProvider = ({children})=>{
                 });
             }
         }catch(error){
-            console.log("Error adding document: ", error)
+            console.error("Error adding document: ", error)
         }
     };
     
@@ -221,7 +221,7 @@ const UserProvider = ({children})=>{
                 await setDoc(doc(totalRef, totalId), { count: 0 });
             }
         }catch(error){
-            console.log("Error adding document: ", error)
+            console.error("Error adding document: ", error)
         }
     };
     // the below code will transfer the item from Cart to My-Order

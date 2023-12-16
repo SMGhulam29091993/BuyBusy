@@ -25,7 +25,7 @@ const SignUp = ()=>{
             await SignUp(userFormData.email,userFormData.password);
             setUserFormData(initialFormData);
             navigate('/login')
-            console.log("Document written with ID: ", userDoc.id);
+            // console.log("Document written with ID: ", userDoc.id);
         }catch(error){
             console.error("Error adding document: ", error);
         }
