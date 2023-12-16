@@ -225,11 +225,11 @@ const UserProvider = ({children})=>{
         try {
             const cartRef = collection(db, "Cart");
             const orderRef = collection(db, "MyOrder");
-            const totalRef = collection(db, "Total");
-            const purchaseAmountRef = doc(db, "PurchaseAmount", "ozA99YAui235Kdersk6a");
+            const totalRef = collection(db,"Total");
+
+            const totalData = await getDocs(totalRef);
     
             const cartData = await getDocs(cartRef);
-            const totalData = await getDocs(totalRef);
     
             const transferPromises = [];
             const currentDateTime = serverTimestamp(); // Get current server timestamp
@@ -239,11 +239,7 @@ const UserProvider = ({children})=>{
                 const transferPromise = addDoc(orderRef, { ...transferData, dateTime: currentDateTime });
                 transferPromises.push(transferPromise);
             });
-            // cartData.forEach((doc) => {
-            //     const transferData = doc.data();
-            //     const transferPromise = addDoc(orderRef, transferData);
-            //     transferPromises.push(transferPromise);
-            // });
+           
     
             await Promise.all(transferPromises);
     
@@ -251,10 +247,9 @@ const UserProvider = ({children})=>{
             await Promise.all(deleteCartPromises);
     
             if (totalData.docs.length > 0) {
-                const totalAmount = totalData.docs[0].data().count;
+                // const totalAmount = totalData.docs[0].data().count;
                 const totalDocRef = totalData.docs[0].ref;
                 await setDoc(totalDocRef, { count: 0 });
-                await setDoc(purchaseAmountRef, { amount: totalAmount });
             }
     
         } catch (error) {
