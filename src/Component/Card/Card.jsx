@@ -3,7 +3,7 @@ import style from './card.module.css';
 import { useCustomHook } from '../../context';
 
 const Card =({prod})=>{
-    const {addToCart}=  useCustomHook();
+    const {addToCart, isLoggedIn}=  useCustomHook();
     return (
         <>
 
@@ -15,7 +15,15 @@ const Card =({prod})=>{
                     <h4>{prod.details}</h4>
                     <h4>₹ : {prod.price} </h4>
                 </div>
-                <button className={style.addBtn} onClick={()=>addToCart(prod)}>Add To Cart</button>
+                <button
+                    className={style.addBtn}
+                    onClick={() => {
+                        if (isLoggedIn) {
+                            addToCart(prod);
+                        }
+                    }}>
+                    Add To Cart
+                </button>
             </div>
         </>
     )
