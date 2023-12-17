@@ -18,7 +18,7 @@ const NavBar = ()=>{
         <>
             <nav>
                 <div className={style.logo}>
-                    <h3>BusyBuy</h3>
+                    <Link to="/"><h3>BusyBuy</h3></Link>
                 </div>
                 <div className={style.navList}>
                     <ul>

@@ -40,3 +40,8 @@ nav{
     text-decoration: none;
     color: black;
 }
+.logo a{
+    text-decoration: none;
+    cursor: pointer;
+    color:black;
+}
